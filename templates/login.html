@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title%}Login{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <div class="row">
+
+      <div class="col-lg-6 col-md-10 mt-5 py-3 mx-auto content">
+
+{{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+
+      </div>
+    </div>
+</div>
+{% endblock %}
