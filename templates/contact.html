@@ -3,4 +3,110 @@
 {% block title %}Contact{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+
+      <div class="col-lg-6 col-md-10 mx-auto content">
+
+<section class="mb-4 center-content">
+
+    <!-- Section content -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!--Section heading-->
+                <h2 class="h1-responsive font-weight-bold text-center mb-4">Contact me</h2>
+                <!--Section description-->
+                <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact me directly.</p>
+
+                <!-- Contact Form -->
+                <form id="contact-form" name="contact-form" action="#" method="POST">
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form mb-0">
+                                <input type="text" id="name" name="name" class="form-control">
+                                <label for="name" class="">Your name</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form mb-0">
+                                <input type="email" id="email" name="email" class="form-control">
+                                <label for="email" class="">Your email</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <input type="text" id="subject" name="subject" class="form-control">
+                                <label for="subject" class="">Subject</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-12">
+
+                            <div class="md-form">
+                                <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                                <label for="message">Your message</label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="button" class="btn btn-primary" onclick="submitForm()">Send</button>
+                        </div>
+                    </div>
+                    <!--Grid row-->
+
+                </form>
+                <!-- Contact Form -->
+
+                <!-- Status -->
+                <div class="status"></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JavaScript for form submission -->
+<script>
+    function submitForm() {
+        // Handle form submission here, e.g., with AJAX
+        // Display success or error message in the status div
+        var status = document.querySelector('.status');
+        status.innerHTML = "<div class='alert alert-success'>Message sent successfully!</div>";
+    }
+</script>
+
+
+      </div>
+    </div>
+</div>
 {% endblock %}
