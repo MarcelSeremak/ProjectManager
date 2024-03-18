@@ -18,7 +18,7 @@ idna==2.10
 itsdangerous==2.1.2
 psycopg2-binary==2.9.9
 Jinja2==3.1.2
-MarkupSafe==1.1.1
+MarkupSafe==2.0
 pipenv==2020.8.13
 requests==2.24.0
 six==1.15.0
