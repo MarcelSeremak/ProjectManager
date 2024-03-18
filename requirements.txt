@@ -17,7 +17,7 @@ gunicorn==21.2.0
 idna==2.10
 itsdangerous==1.1.0
 psycopg2-binary==2.9.9
-Jinja2==2.11.2
+Jinja2==3.1.2
 MarkupSafe==1.1.1
 pipenv==2020.8.13
 requests==2.24.0
