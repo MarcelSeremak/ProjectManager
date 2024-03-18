@@ -1,12 +1,11 @@
 import random
 from flask import Flask, render_template, redirect, url_for, request
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegisterForm, AddNewProject, RandomProject
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from flask_bootstrap import render_form
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 import os
 import smtplib
@@ -14,7 +13,7 @@ import secrets
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_urlsafe(16)
-Bootstrap(app)
+Bootstrap4(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 
 
