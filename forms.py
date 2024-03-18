@@ -24,3 +24,12 @@ class AddNewProject(FlaskForm):
                                                                              ('Medium Priority', 'Medium Priority'),
                                                                              ('Low Priority', 'Low Priority')])
     submit = SubmitField("Add")
+
+
+class RandomProject(FlaskForm):
+    description = TextAreaField("Description", validators=[DataRequired()])
+    language = StringField("Programming Language", validators=[DataRequired()])
+    priority = SelectField("Priority", validators=[DataRequired()], choices=[('High Priority', 'High Priority'),
+                                                                             ('Medium Priority', 'Medium Priority'),
+                                                                             ('Low Priority', 'Low Priority')])
+    submit = SubmitField("Add")

@@ -2,7 +2,23 @@
 {% block title%}Random Project{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
 
-Random
+      <div class="col-lg-6 col-md-10 mt-5 py-3 mx-auto content">
+	<div class="card mx-5">
+  <div class="card-body">
+    <h5 class="card-title my-4 me-2">{{ idea.title }}</h5>
+    <p class="card-text">Accept or decline this idea for project to your portfolio</p>
+    <button type="button" class="btn btn-primary mt-3" data-mdb-ripple-init onclick="window.location.href = '{{ url_for('accept', title=idea.title) }}';"> Accept</button>
+          <button type="button" class="btn btn-primary mt-3" data-mdb-ripple-init onclick="window.location.href = '{{ url_for('decline') }}';"> Decline</button>
+
+  </div>
+</div>
+
+      </div>
+    </div>
+</div>
+
 
 {% endblock %}

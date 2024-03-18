@@ -1,7 +1,8 @@
+import random
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegisterForm, AddNewProject
+from forms import LoginForm, RegisterForm, AddNewProject, RandomProject
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -55,10 +56,16 @@ class Project(db.Model):
     description: Mapped[str] = mapped_column(String(250), nullable=False)
     priority: Mapped[int] = mapped_column(Integer, nullable=False)
 
+class RandomIdea(db.Model):
+    __tablename__ = "random_ideas"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(String(250), nullable=False)
+
+
+
 
 with app.app_context():
     db.create_all()
-
 
 @app.route("/")
 def starting_page():
@@ -117,16 +124,20 @@ def logout():
     return redirect(url_for("starting_page", current_user=current_user))
 
 
-@app.route("/random_project")
+@app.route("/random_project", methods=["POST", "GET"])
 @login_required
 def random_project():
-    if int(current_user.points) < 50:
-        return "lala"
+    idea_user = User.query.filter_by(id=current_user.id).first()
+    if int(idea_user.points) >= 50:
+        idea_user.points = int(idea_user.points) - 50
+        db.session.commit()
+        idea = db.session.execute(db.select(RandomIdea).where(RandomIdea.id == str(random.randint(1, 199)))).scalar()
+        return render_template("random-project.html", current_user=current_user, idea=idea)
     else:
-        return render_template("random-project.html", current_user=current_user)
+        return redirect(url_for("profile"))
 
 
-@app.route("/profile")
+@app.route("/profile", methods=["POST", "GET"])
 @login_required
 def profile():
     projects_for_user = db.session.execute(db.select(Project).where(Project.id_for_user == current_user.id)).scalars().all()
@@ -159,6 +170,32 @@ def delete():
     task_to_delete = db.session.execute(db.select(Project).where(Project.id == task_id)).scalar()
     db.session.delete(task_to_delete)
     db.session.commit()
+    return redirect(url_for("profile"))
+
+
+@app.route("/accept", methods=["POST", "GET"])
+@login_required
+def accept():
+    form = RandomProject()
+    if form.validate_on_submit():
+        title = request.args.get("title")
+        project = Project(
+            id_for_user=current_user.id,
+            title=title,
+            description=form.description.data,
+            priority=form.priority.data,
+            language=form.language.data
+        )
+        db.session.add(project)
+        db.session.commit()
+        return redirect(url_for("profile"))
+    return render_template("edit_random_idea.html", current_user=current_user, form=form)
+
+
+
+@app.route("/decline")
+@login_required
+def decline():
     return redirect(url_for("profile"))
 
 
