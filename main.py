@@ -10,9 +10,10 @@ from flask_bootstrap import render_form
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 import os
 import smtplib
+import secrets
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "ciouasbocaboxoanxa"
+app.config['SECRET_KEY'] = secrets.token_urlsafe(16)
 Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 
@@ -34,8 +35,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
-EMAIL = "marcelseremak5@gmail.com"
-PASSWORD = "yhfu vsbh gcdo imsk"
+EMAIL = "YOUR_EMAIL"
+PASSWORD = "PASSWORD_FOR_YOUR_EMAIL"
 
 
 class User(db.Model, UserMixin):
@@ -79,7 +80,15 @@ def about():
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html", current_user=current_user)
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        subject = request.form.get("subject")
+        message = request.form.get("message")
+        send_email(name, email, subject, message)
+        return redirect(url_for("starting_page"))
+    else:
+        return render_template("contact.html", current_user=current_user)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -215,8 +224,8 @@ def done():
     return redirect(url_for("profile"))
 
 
-def send_email(name, email, phone, message):
-    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
+def send_email(name, email, subject, message):
+    email_message = f"Subject:{subject}\n\nName: {name}\nEmail: {email}\nMessage:{message}"
     with smtplib.SMTP("smtp.gmail.com") as connection:
         connection.starttls()
         connection.login(EMAIL, PASSWORD)

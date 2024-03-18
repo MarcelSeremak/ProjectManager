@@ -20,7 +20,7 @@
                 <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact me directly.</p>
 
                 <!-- Contact Form -->
-                <form id="contact-form" name="contact-form" action="#" method="POST">
+                <form id="contact-form" name="contact-form" action="{{ url_for('contact') }}" method="POST">
 
                     <!--Grid row-->
                     <div class="row">
@@ -75,7 +75,7 @@
                     <!--Grid row-->
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button type="button" class="btn btn-primary" onclick="submitForm()">Send</button>
+                            <button type="submit" class="btn btn-primary" onclick="submitForm()">Send</button>
                         </div>
                     </div>
                     <!--Grid row-->
