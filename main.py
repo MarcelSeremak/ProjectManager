@@ -1,6 +1,6 @@
 import random
 from flask import Flask, render_template, redirect, url_for, request
-from flask_bootstrap import Bootstrap4
+from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegisterForm, AddNewProject, RandomProject
 from flask_sqlalchemy import SQLAlchemy
@@ -13,7 +13,7 @@ import secrets
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_urlsafe(16)
-Bootstrap4(app)
+Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 
 
@@ -25,6 +25,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+# Initializing user for logging and registering
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -56,16 +57,16 @@ class Project(db.Model):
     description: Mapped[str] = mapped_column(String(250), nullable=False)
     priority: Mapped[int] = mapped_column(Integer, nullable=False)
 
+
 class RandomIdea(db.Model):
     __tablename__ = "random_ideas"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(250), nullable=False)
 
 
-
-
 with app.app_context():
     db.create_all()
+
 
 @app.route("/")
 def starting_page():
@@ -198,7 +199,6 @@ def accept():
         db.session.commit()
         return redirect(url_for("profile"))
     return render_template("edit_random_idea.html", current_user=current_user, form=form)
-
 
 
 @app.route("/decline")
